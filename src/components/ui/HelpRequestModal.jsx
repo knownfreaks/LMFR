@@ -48,12 +48,12 @@ const HelpRequestModal = ({ isOpen, onClose }) => {
           <div>
             <textarea
               placeholder="Describe your issue"
-              {...register('description')}
+              {...register('message')}
               rows={4}
               className="w-full border p-2 rounded"
             />
-            {errors.description && (
-              <p className="text-red-500 text-sm">{errors.description.message}</p>
+            {errors.message && (
+              <p className="text-red-500 text-sm">{errors.message.message}</p>
             )}
           </div>
           <div className="flex justify-end gap-2">
