@@ -17,11 +17,13 @@ import ApplicationsBoard from "@/components/applicationBoard/ApplicationsBoard_S
 import JobPostingDetails from "@/components/Job/JobPostingDetails";
 import ApplicantDetails from "@/components/jobApplicants/ApplicantDetails";
 import AdminSkillMarks from "@/components/admin/AdminSkillMarks";
+import HelpTickets from "@/components/admin/HelpTickets";
 import Onboarding from "@/components/onboarding/Onboarding";
 import OnboardingRoute from "./OnboardingRoute";
 import SchoolProfile from "@/schoolProfile/SchoolProfile";
 import StudentDashboard from "@/components/student/StudentDashboard";
 import StudentJobOpportunities from "@/components/student/StudentJobOpportunities";
+import StudentProfileEdit from "@/components/student/StudentProfileEdit";
 
 export default function AppRoutes() {
   return (
@@ -40,6 +42,7 @@ export default function AppRoutes() {
           <Route path="/admin/skills" element={<AdminSkills />} />
           <Route path="/admin/categories" element={<AdminCategories />} />
           <Route path="/admin/skill-marks" element={<AdminSkillMarks />} />
+          <Route path="/admin/help-tickets" element={<HelpTickets />} />
         </Route>
       </Route>
 
@@ -85,10 +88,7 @@ export default function AppRoutes() {
       <Route path="/student/calendar" element={<MyFullCalendar />} />
       <Route path="/student/job/:jobId" element={<JobDetails />} />
       <Route path="/student/jobs" element={<StudentJobOpportunities />} />
-      <Route
-  path="/student/profile"
-  element={<ApplicantDetails />}
-/>
+      <Route path="/student/profile" element={<StudentProfileEdit />} />
 
     </Route>
   </Route>

@@ -6,14 +6,17 @@ import {
   FaCalendarAlt,
   FaUser,
   FaThLarge,
+  FaQuestionCircle,
 } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 import logo from "../../assets/SidebarMenu/logo.svg";
 import { Mail, Calendar } from "lucide-react";
+import HelpRequestModal from "../ui/HelpRequestModal";
 import useLogout from "@/hooks/useLogout";
 
 const Sidebar = () => {
   const [hovered, setHovered] = useState(false);
+  const [supportOpen, setSupportOpen] = useState(false);
   const logout = useLogout();
 
   const user = JSON.parse(localStorage.getItem("user"));
@@ -26,18 +29,21 @@ const Sidebar = () => {
       { label: "Skills", icon: <FaGraduationCap />, link: "/admin/skills" },
       { label: "Categories", icon: <FaBriefcase />, link: "/admin/categories" },
       { label: "Upload Skill Marks", icon: <FaGraduationCap />, link: "/admin/skill-marks" },
+      { label: "Help Tickets", icon: <FaQuestionCircle />, link: "/admin/help-tickets" },
     ],
     school: [
       { label: "Dashboard", icon: <FaThLarge />, link: "/school/dashboard" },
       { label: "Job Posting", icon: <Mail />, link: "/school/job-posting" },
       { label: "My Profile", icon: <FaUser />, link: "/school/profile" },
+      { label: "Levelminds Support", icon: <FaQuestionCircle />, support: true },
     ],
 student: [
   { label: "Dashboard", icon: <FaThLarge />, link: "/student/dashboard" },
   // { label: "Skills", icon: <FaGraduationCap />, link: "/student/skills" },
-   { label: "Job Opportunities", icon: <FaBriefcase />, link: "/student/jobs" }, // ✅ New menu item
+  { label: "Job Opportunities", icon: <FaBriefcase />, link: "/student/jobs" }, // ✅ New menu item
   { label: "Calendar", icon: <Calendar />, link: "/student/calendar" },
-  { label: "My Profile", icon: <FaUser />, link: "/student/profile" }, // ✅ New route added
+  { label: "My Profile", icon: <FaUser />, link: "/student/profile" },
+  { label: "Levelminds Support", icon: <FaQuestionCircle />, support: true },
 ],
 
   };
@@ -72,7 +78,13 @@ student: [
           {navItems.map((item, idx) => (
             <li key={idx}>
               <NavLink
-                to={item.link}
+                to={item.link || "#"}
+                onClick={(e) => {
+                  if (item.support) {
+                    e.preventDefault();
+                    setSupportOpen(true);
+                  }
+                }}
                 className={({ isActive }) =>
                   `flex items-center transition-all rounded-md px-3 py-3 ${
                     isActive
@@ -102,9 +114,10 @@ student: [
           }`}
         >
           <FaPowerOff className="text-xl" />
-          {hovered && <span className="text-sm font-medium">Logout</span>}
-        </div>
+      {hovered && <span className="text-sm font-medium">Logout</span>}
       </div>
+    </div>
+    <HelpRequestModal isOpen={supportOpen} onClose={() => setSupportOpen(false)} />
     </div>
   );
 };

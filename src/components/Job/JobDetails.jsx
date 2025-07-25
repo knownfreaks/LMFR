@@ -85,8 +85,13 @@ export default function JobDetails() {
                 className="w-[80px] h-[70px] rounded-sm"
               />
               <div>
-                <h3 className="text-2xl font-bold text-black">
+                <h3 className="text-2xl font-bold text-black flex items-center gap-2">
                   {jobData.title}
+                  {role === 'school' && jobData.pendingCandidates > 0 && (
+                    <span className="bg-yellow-200 text-yellow-800 text-xs px-2 py-0.5 rounded">
+                      Pending Review
+                    </span>
+                  )}
                 </h3>
                 <p className="text-gray-500">{jobData.institution}</p>
                 <div className="mt-2 flex gap-2 text-sm text-green-600 flex-wrap">
