@@ -25,3 +25,10 @@ export const getStudentJobs = async () => {
   });
   return res?.data;
 };
+
+export const updateStudentProfile = async (data) => {
+  return apiClient("/student/profile", {
+    method: "PATCH",
+    body: JSON.stringify(data),
+  });
+};
