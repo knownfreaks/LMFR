@@ -8,9 +8,9 @@ import {
 import cardicon from "../../assets/card-icon.png";
 import { useNavigate, useParams } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
-import { jobDetailById as jobDetailStudent, applyToJob } from "@/api/student";
+import { jobDetailById as jobDetailStudent } from "@/api/student";
 import { jobDetailById as jobDetailSchool } from "@/api/school";
-import { toast } from "react-toastify";
+import JobApplyModal from "../ui/JobApplyModal";
 
 export default function JobDetails() {
   const { jobId } = useParams();
@@ -37,18 +37,8 @@ export default function JobDetails() {
     }
   };
 
-  const handleApply = async () => {
-    try {
-      const res = await applyToJob(jobId);
-      if (res.success) {
-        toast.success("Applied successfully!");
-      } else {
-        toast.error(res.message || "Failed to apply.");
-      }
-    } catch (err) {
-      toast.error(err.message || "Something went wrong.");
-    }
-  };
+
+  const [applyOpen, setApplyOpen] = useState(false);
 
   useEffect(() => {
     getJobDetails();
@@ -188,7 +178,7 @@ export default function JobDetails() {
           {/* Apply Now Button for Students */}
           {role === "student" && (
             <button
-              onClick={handleApply}
+              onClick={() => setApplyOpen(true)}
               className="w-full bg-green-600 text-white py-2 px-4 rounded-xl text-lg font-semibold hover:bg-green-700 transition"
             >
               Apply Now
@@ -196,6 +186,12 @@ export default function JobDetails() {
           )}
         </div>
       </div>
+      <JobApplyModal
+        isOpen={applyOpen}
+        onClose={() => setApplyOpen(false)}
+        jobId={jobId}
+        email={user?.email}
+      />
     </>
   );
 }

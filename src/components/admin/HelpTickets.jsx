@@ -10,7 +10,8 @@ const HelpTickets = () => {
     try {
       const res = await fetchHelpRequests();
       if (res?.success) {
-        setTickets(res.data.tickets || []);
+        // Prefer `res.data.requests` as per your earlier fetchHelpRequests definition
+        setTickets(res.data.requests || []);
       } else {
         toast.error(res?.message || 'Failed to load');
       }
@@ -54,7 +55,7 @@ const HelpTickets = () => {
             <div key={t.id} className="border p-4 rounded flex justify-between">
               <div>
                 <p className="font-semibold">{t.subject}</p>
-                <p className="text-sm text-gray-700">{t.description}</p>
+                <p className="text-sm text-gray-700">{t.message}</p>
               </div>
               <button
                 onClick={() => handleResolve(t.id)}

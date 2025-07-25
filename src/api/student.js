@@ -6,9 +6,22 @@ export const jobDetailById = (id) => {
   });
 };
 
-export const applyToJob = (id) => {
+export const applyToJob = (id, data) => {
+  const formData = new FormData();
+  Object.entries(data).forEach(([key, value]) => {
+    if (value !== undefined && value !== null && value !== '') {
+      if (key === 'file') {
+        if (value instanceof File) formData.append('file', value);
+      } else {
+        formData.append(key, value);
+      }
+    }
+  });
+
   return apiClient(`/student/jobs/${id}/apply`, {
-    method: "POST",
+    method: 'POST',
+    body: formData,
+    isFormData: true,
   });
 };
 
