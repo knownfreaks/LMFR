@@ -10,6 +10,7 @@ const HelpTickets = () => {
     try {
       const res = await fetchHelpRequests();
       if (res?.success) {
+        // Prefer `res.data.requests` as per your earlier fetchHelpRequests definition
         setTickets(res.data.requests || []);
       } else {
         toast.error(res?.message || 'Failed to load');
