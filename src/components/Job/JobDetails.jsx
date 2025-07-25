@@ -8,9 +8,9 @@ import {
 import cardicon from "../../assets/card-icon.png";
 import { useNavigate, useParams } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
-import { jobDetailById as jobDetailStudent, applyToJob } from "@/api/student";
+import { jobDetailById as jobDetailStudent } from "@/api/student";
 import { jobDetailById as jobDetailSchool } from "@/api/school";
-import { toast } from "react-toastify";
+import JobApplyModal from "../ui/JobApplyModal";
 
 export default function JobDetails() {
   const { jobId } = useParams();
@@ -37,18 +37,8 @@ export default function JobDetails() {
     }
   };
 
-  const handleApply = async () => {
-    try {
-      const res = await applyToJob(jobId);
-      if (res.success) {
-        toast.success("Applied successfully!");
-      } else {
-        toast.error(res.message || "Failed to apply.");
-      }
-    } catch (err) {
-      toast.error(err.message || "Something went wrong.");
-    }
-  };
+
+  const [applyOpen, setApplyOpen] = useState(false);
 
   useEffect(() => {
     getJobDetails();
@@ -85,8 +75,13 @@ export default function JobDetails() {
                 className="w-[80px] h-[70px] rounded-sm"
               />
               <div>
-                <h3 className="text-2xl font-bold text-black">
+                <h3 className="text-2xl font-bold text-black flex items-center gap-2">
                   {jobData.title}
+                  {role === 'school' && jobData.pendingCandidates > 0 && (
+                    <span className="bg-yellow-200 text-yellow-800 text-xs px-2 py-0.5 rounded">
+                      Pending Review
+                    </span>
+                  )}
                 </h3>
                 <p className="text-gray-500">{jobData.institution}</p>
                 <div className="mt-2 flex gap-2 text-sm text-green-600 flex-wrap">
@@ -183,7 +178,7 @@ export default function JobDetails() {
           {/* Apply Now Button for Students */}
           {role === "student" && (
             <button
-              onClick={handleApply}
+              onClick={() => setApplyOpen(true)}
               className="w-full bg-green-600 text-white py-2 px-4 rounded-xl text-lg font-semibold hover:bg-green-700 transition"
             >
               Apply Now
@@ -191,6 +186,12 @@ export default function JobDetails() {
           )}
         </div>
       </div>
+      <JobApplyModal
+        isOpen={applyOpen}
+        onClose={() => setApplyOpen(false)}
+        jobId={jobId}
+        email={user?.email}
+      />
     </>
   );
 }

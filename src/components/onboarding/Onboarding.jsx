@@ -2,9 +2,11 @@ import { authOnboarding } from "@/api/auth";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import useLogout from "@/hooks/useLogout";
 
 const Onboarding = () => {
   const navigate = useNavigate();
+  const logout = useLogout();
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -137,7 +139,13 @@ certifications: formData.certifications.map(c => ({
 
 
   return (
-    <div className="max-w-3xl mx-auto mt-8 p-6 border shadow rounded">
+    <div className="max-w-3xl mx-auto mt-8 p-6 border shadow rounded relative">
+      <button
+        onClick={logout}
+        className="absolute top-2 right-2 text-sm text-red-600"
+      >
+        Logout
+      </button>
       <h2 className="text-2xl font-bold mb-6">Student Onboarding</h2>
       <form onSubmit={handleSubmit} className="space-y-5">
 

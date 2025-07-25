@@ -21,7 +21,12 @@ const JobCard = ({ job }) => {
   };
 
   return (
-    <div className="flex flex-col sm:flex-row gap-4 p-5 border rounded-xl shadow-sm bg-white max-w-3xl w-full min-h-[250px] overflow-hidden">
+    <div className="relative flex flex-col sm:flex-row gap-4 p-5 border rounded-xl shadow-sm bg-white max-w-3xl w-full min-h-[250px] overflow-hidden">
+      {user?.role === 'school' && job?.pendingCandidates > 0 && (
+        <span className="absolute top-2 right-2 bg-yellow-200 text-yellow-800 text-xs px-2 py-0.5 rounded">
+          Pending Review
+        </span>
+      )}
       {/* Logo */}
       <div className="w-14 h-14 flex-shrink-0">
         <img

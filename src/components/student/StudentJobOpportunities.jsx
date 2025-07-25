@@ -12,10 +12,7 @@ const StudentJobOpportunities = () => {
 const fetchJobs = async () => {
   try {
     const res = await getStudentJobs();
-    console.log("✅ Raw API response:", res);
-
     const rawJobs = res?.availableJobs || [];
-    console.log("✅ Raw jobs array:", rawJobs);
 
     if (!Array.isArray(rawJobs)) {
       toast.error("Job data is not in expected format.");
@@ -35,10 +32,9 @@ const fetchJobs = async () => {
       status: "Active",
     }));
 
-    console.log("✅ Formatted jobs:", formatted);
     setJobs(formatted);
   } catch (err) {
-    console.error("❌ Job fetch error:", err);
+    console.error("Job fetch error:", err);
     toast.error("Failed to load job opportunities.");
   } finally {
     setLoading(false);
@@ -63,11 +59,9 @@ const fetchJobs = async () => {
           </p>
 
           {jobs.length === 0 ? (
-            <p className="text-gray-600">
-              No job opportunities available right now.
-            </p>
+            <p className="text-gray-600">No job opportunities available right now.</p>
           ) : (
-            <div className="flex flex-col gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {jobs.map((job) => (
                 <JobCard key={job.id} job={job} />
               ))}
